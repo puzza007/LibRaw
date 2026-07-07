@@ -491,6 +491,20 @@ int LibRaw::open_datastream(LibRaw_abstract_datastream *stream)
 
 	  identify();
 
+	  // Sony "Compressed RAW 2" (ARW6) decodes to a 2x-scaled (~15-bit) buffer,
+	  // so the native 14-bit black/white levels must be doubled to match (verified
+	  // byte-for-byte against Adobe DNG Converter). Lossless ARW frames use a
+	  // different decoder and keep their native levels.
+	  if (load_raw == &LibRaw::sony_arw6_load_raw)
+	  {
+		  imgdata.color.black <<= 1;
+		  imgdata.color.maximum <<= 1;
+		  for (int c = 0; c < 4; c++)
+			  imgdata.color.cblack[c] <<= 1;
+		  for (int c = 0; c < 4; c++)
+			  imgdata.color.linear_max[c] <<= 1;
+	  }
+
 	  // Fuji layout files: either DNG or unpacked_load_raw should be used
 	  if (libraw_internal_data.internal_output_params.fuji_width || libraw_internal_data.unpacker_data.fuji_layout)
 	  {

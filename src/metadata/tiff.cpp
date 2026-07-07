@@ -2073,6 +2073,11 @@ void LibRaw::apply_tiff()
   if (raw >= 0 && !load_raw)
     switch (tiff_compress)
     {
+    case 32766:
+      // Sony "Compressed RAW 2" (ARW 6.0 lossy/HQ, e.g. ILCE-7M5): wavelet +
+      // adaptive VLC entropy coding, decoded by sony_arw6_load_raw().
+      load_raw = &LibRaw::sony_arw6_load_raw;
+      break;
     case 32767:
       if (!dng_version &&
           tiff_ifd[raw].bytes == INT64(raw_width) * INT64(raw_height))

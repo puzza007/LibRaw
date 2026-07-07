@@ -285,6 +285,7 @@ it under the terms of the one of two licenses as you choose:
 	void        sony_arq_load_raw();
 	void        sony_ljpeg_load_raw();
 	void        sony_ycbcr_load_raw();
+	void        sony_arw6_load_raw();
 	void        samsung_load_raw();
 	void        samsung2_load_raw();
 	void        samsung3_load_raw();
