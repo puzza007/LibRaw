@@ -3139,7 +3139,8 @@ void LibRaw::identify_finetune_dcr(char head[64], INT64 fsize, INT64 flen)
 
 		  /* need samples for lossy small/medium w/ APC crop*/
         }
-        else if ((unique_id == SonyID_ILCE_7M4)|| (unique_id == SonyID_ILCE_7CM2) || (unique_id == SonyID_ILME_FX2))
+        else if ((unique_id == SonyID_ILCE_7M4)|| (unique_id == SonyID_ILCE_7CM2) || (unique_id == SonyID_ILME_FX2)
+                 || (unique_id == SonyID_ILCE_7M5))
         {
           if (raw_width == 7168 && raw_height == 5120) 
           {
@@ -3164,6 +3165,11 @@ void LibRaw::identify_finetune_dcr(char head[64], INT64 fsize, INT64 flen)
           else if (raw_width == 7040) // FF uncompressed/lossy
           {
             width -= 12;
+          }
+          else if (raw_width == 4640) // ILCE-7M5 APS-C compressed (RAW 2)
+          {
+            width = 4624;
+            height = 3080;
           }
 		  else
             imgdata.process_warnings |= LIBRAW_WARN_VENDOR_CROP_SUGGESTED;
